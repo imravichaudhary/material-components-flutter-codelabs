@@ -24,6 +24,24 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _unfocusedColor = Colors.grey[600];
+  final _usernameFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _usernameFocusNode.addListener(() {
+      setState(() {
+        
+      });
+    });
+    _passwordFocusNode.addListener(() {
+      setState(() {
+        
+      });
+    });
+  }
 
   // TODO: Add text editing controllers (101)
   @override
@@ -38,7 +56,10 @@ class _LoginPageState extends State<LoginPage> {
               children: <Widget>[
                 Image.asset('assets/diamond.png'),
                 const SizedBox(height: 16.0),
-                const Text('SHRINE'),
+                Text(
+                  'SHRINE',
+                  style: Theme.of(context).textTheme.headline5,  
+                ),
               ],
             ),
             const SizedBox(height: 120.0),
@@ -49,18 +70,28 @@ class _LoginPageState extends State<LoginPage> {
             // TODO: Add button bar (101)
             TextField(
               controller: _usernameController,
-              decoration: const InputDecoration(
-                filled: true,
+              decoration: InputDecoration(
                 labelText: 'Username',
+                labelStyle: TextStyle(
+                  color: _usernameFocusNode.hasFocus
+                    ? Theme.of(context).colorScheme.secondary
+                    : _unfocusedColor,
+                )
               ),
+              focusNode: _usernameFocusNode,
             ),
             const SizedBox(height: 12.0),
             TextField(
               controller: _passwordController,
-              decoration: const InputDecoration(
-                filled: true,
+              decoration: InputDecoration(
                 labelText: 'Password',
+                labelStyle: TextStyle(
+                  color: _passwordFocusNode.hasFocus
+                    ? Theme.of(context).colorScheme.secondary
+                    : _unfocusedColor,
+                ),
               ),
+              focusNode: _passwordFocusNode,
               obscureText: true,
             ),
             ButtonBar(
@@ -68,10 +99,36 @@ class _LoginPageState extends State<LoginPage> {
                 TextButton(onPressed: () {
                   _usernameController.clear();
                   _passwordController.clear();
-                }, child: const Text('CANCEL')),
+                }, 
+                child: const Text('CANCEL'),
+                style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all(
+                    Theme.of(context).colorScheme.secondary,
+                  ),
+                  shape: MaterialStateProperty.all(
+                    const BeveledRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(7.0),
+                      )
+                    )
+                  )
+                ),
+                ),
                 ElevatedButton(onPressed: () {
                   Navigator.pop(context);
-                }, child: const Text('NEXT'))
+                }, 
+                child: const Text('NEXT'),
+                style: ButtonStyle(
+                  elevation: MaterialStateProperty.all(8.0),
+                  shape: MaterialStateProperty.all(
+                    const BeveledRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(7.0),
+                      )
+                    )
+                  )
+                )
+                )
               ],
             ),
           ],
